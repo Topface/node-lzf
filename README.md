@@ -46,7 +46,7 @@ Fastest is lzf-compress
 Testing decompression at 100 bytes
 lzf-decompress x 36,574 ops/sec ±7.74% (87 runs sampled)
 zlib-decompress x 26,153 ops/sec ±6.92% (89 runs sampled)
-Fastest is lzf-compress
+Fastest is lzf-decompress
 
 Testing compression at 1000 bytes
 lzf-compress x 57,345 ops/sec ±9.49% (81 runs sampled)
@@ -56,7 +56,7 @@ Fastest is lzf-compress
 Testing decompression at 1000 bytes
 lzf-decompress x 29,221 ops/sec ±7.06% (89 runs sampled)
 zlib-decompress x 19,351 ops/sec ±4.77% (92 runs sampled)
-Fastest is lzf-compress
+Fastest is lzf-decompress
 
 Testing compression at 10000 bytes
 lzf-compress x 10,512 ops/sec ±3.26% (92 runs sampled)
@@ -66,7 +66,7 @@ Fastest is lzf-compress
 Testing decompression at 10000 bytes
 lzf-decompress x 12,487 ops/sec ±3.85% (91 runs sampled)
 zlib-decompress x 6,939 ops/sec ±3.14% (93 runs sampled)
-Fastest is lzf-compress
+Fastest is lzf-decompress
 
 Testing compression at 100000 bytes
 lzf-compress x 1,628 ops/sec ±1.50% (96 runs sampled)
@@ -76,7 +76,7 @@ Fastest is lzf-compress
 Testing decompression at 100000 bytes
 lzf-decompress x 2,472 ops/sec ±1.09% (91 runs sampled)
 zlib-decompress x 1,430 ops/sec ±0.73% (95 runs sampled)
-Fastest is lzf-compress
+Fastest is lzf-decompress
 ```
 
 ---
