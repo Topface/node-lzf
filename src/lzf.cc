@@ -29,16 +29,18 @@ Handle<Value> compress(const Arguments& args) {
 	Local<Object> bufferIn = args[0]->ToObject();
     size_t bytesIn         = Buffer::Length(bufferIn);
     char * dataPointer     = Buffer::Data(bufferIn);
-    size_t bytesCompressed = bytesIn * 1.5;
+    size_t bytesCompressed = bytesIn + 100;
     char * bufferOut        = (char*) malloc(bytesCompressed);
 
     unsigned result = lzf_compress(dataPointer, bytesIn, bufferOut, bytesCompressed);
 
     if (!result) {
+        free(bufferOut);
         return Undefined();
     }
 
     Buffer *BufferOut = Buffer::New(bufferOut, result);
+    free(bufferOut);
 
     return scope.Close(BufferOut->handle_);
 }
