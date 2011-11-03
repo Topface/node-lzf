@@ -1,0 +1,18 @@
+{
+    "name": "lzf",
+    "version": "0.1.0",
+    "description": "lzf compression module for nodejs",
+    "keywords": ["lzf", "compression", "buffer"],
+    "author": "Ian Babrou <ibobrik@gmail.com>",
+    "engines": [
+        "node"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/Sonetica/node-lzf.git"
+    },
+    "directories": {
+        "lib": "./lib"
+    },
+    "main": "./index"
+}
