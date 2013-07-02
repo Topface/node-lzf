@@ -1,6 +1,6 @@
 {
     "name": "lzf",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "description": "lzf compression module for nodejs",
     "keywords": ["lzf", "compression", "buffer"],
     "author": "Ian Babrou <ibobrik@gmail.com>",
@@ -14,5 +14,8 @@
     "directories": {
         "lib": "./lib"
     },
-    "main": "./index"
+    "main": "./index",
+    "scripts": {
+        "test": "node test/test.js"
+    }
 }
