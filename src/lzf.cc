@@ -75,3 +75,6 @@ init (Handle<Object> target) {
 	NODE_SET_METHOD(target, "compress", compress);
 	NODE_SET_METHOD(target, "decompress", decompress);
 }
+
+NODE_MODULE(lzf, init)
+
