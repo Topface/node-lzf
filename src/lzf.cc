@@ -54,7 +54,16 @@ Handle<Value> decompress(const Arguments &args) {
 	Local<Object> bufferIn = args[0]->ToObject();
 
 	size_t bytesUncompressed = 999 * 1024 * 1024; // it's about max size that V8 supports
+	
+	if (args.Length() > 1 && args[1]->IsNumber()) { // accept dest buffer size
+		bytesUncompressed = args[1]->Uint32Value();
+        }
+
+
 	char * bufferOut = (char*) malloc(bytesUncompressed);
+        if (!bufferOut) {
+                return ThrowNodeError("LZF malloc failed!");
+        }
 
     unsigned result = lzf_decompress(Buffer::Data(bufferIn), Buffer::Length(bufferIn), bufferOut, bytesUncompressed);
 
