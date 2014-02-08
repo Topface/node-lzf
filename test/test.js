@@ -12,6 +12,16 @@ var loremBuffer = new Buffer(lorem);
 var loremCompressed = lzf.compress(loremBuffer);
 var loremDecompressed = lzf.decompress(loremCompressed);
 
+// check default output buffer
 assert.equal(loremDecompressed.toString(), lorem);
-console.log("test ok");
 
+// check minimum output buffer
+assert.equal(lzf.decompress(loremCompressed, loremBuffer.length), lorem);
+
+// check error on too small buffer
+try {
+    lzf.decompress(loremCompressed, loremBuffer.length - 1);
+    assert.fail("exception should be thrown for too small buffer");
+} catch (e) {}
+
+console.log("test ok");
