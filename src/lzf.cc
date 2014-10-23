@@ -7,6 +7,7 @@
 #include <malloc/malloc.h>
 #endif
 
+#include "nan.h"
 
 #include "lzf/lzf.h"
 
@@ -15,16 +16,14 @@ using namespace v8;
 using namespace node;
 
 
-Handle<Value> ThrowNodeError(const char* what = NULL) {
-    return ThrowException(Exception::Error(String::New(what)));
-}
-
-Handle<Value> compress(const Arguments& args) {
+// Handle<Value> ThrowNodeError(const char* what = NULL) {
+//     return NanThrowError(Exception::Error(NanNew<String>(what)));
+// }
+NAN_METHOD(compress) {
     if (args.Length() < 1 || !Buffer::HasInstance(args[0])) {
-        return ThrowNodeError("First argument must be a Buffer");
+        return NanThrowError("First argument must be a Buffer");
     }
-
-    HandleScope scope;
+    NanScope();
 
     Local<Object> bufferIn = args[0]->ToObject();
     size_t bytesIn         = Buffer::Length(bufferIn);
@@ -33,26 +32,26 @@ Handle<Value> compress(const Arguments& args) {
     char * bufferOut       = (char*) malloc(bytesCompressed);
 
     if (!bufferOut) {
-        return ThrowNodeError("LZF malloc failed!");
+        return NanThrowError("LZF malloc failed!");
     }
 
     unsigned result = lzf_compress(dataPointer, bytesIn, bufferOut, bytesCompressed);
 
     if (!result) {
         free(bufferOut);
-        return ThrowNodeError("Compression failed, probably too small buffer");
+        return NanThrowError("Compression failed, probably too small buffer");
     }
 
-    Buffer *BufferOut = Buffer::New(bufferOut, result);
+    Local<Object> BufferOut = NanNewBufferHandle(bufferOut, result);
     free(bufferOut);
 
-    return scope.Close(BufferOut->handle_);
+    NanReturnValue(BufferOut);
 }
 
 
-Handle<Value> decompress(const Arguments &args) {
+NAN_METHOD(decompress) {
     if (args.Length() < 1 || !Buffer::HasInstance(args[0])) {
-        return ThrowNodeError("First argument must be a Buffer");
+        return NanThrowError("First argument must be a Buffer");
     }
 
     Local<Object> bufferIn = args[0]->ToObject();
@@ -66,21 +65,21 @@ Handle<Value> decompress(const Arguments &args) {
 
     char * bufferOut = (char*) malloc(bytesUncompressed);
     if (!bufferOut) {
-        return ThrowNodeError("LZF malloc failed!");
+        return NanThrowError("LZF malloc failed!");
     }
 
     unsigned result = lzf_decompress(Buffer::Data(bufferIn), Buffer::Length(bufferIn), bufferOut, bytesUncompressed);
 
     if (!result) {
-        return ThrowNodeError("Unrompression failed, probably too small buffer");
+        return NanThrowError("Unrompression failed, probably too small buffer");
     }
 
-    Buffer * BufferOut = Buffer::New(bufferOut, result);
+    Local<Object> BufferOut = NanNewBufferHandle(bufferOut, result);
 
     free(bufferOut);
 
-    HandleScope scope;
-    return scope.Close(BufferOut->handle_);
+    NanScope();
+    NanReturnValue(BufferOut);
 }
 
 extern "C" void
