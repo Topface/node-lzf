@@ -18,7 +18,8 @@
             'OTHER_CFLAGS': ['-O2']
           }
         }]
-      ]
+      ],
+      "include_dirs": [ '<!(node -e "require(\'nan\')")' ],
     }
   ]
 }
