@@ -20,5 +20,6 @@
     "main": "./index",
     "scripts": {
         "test": "node test/test.js"
-    }
+    },
+    "license": "BSD-2-Clause"
 }
