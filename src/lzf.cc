@@ -24,7 +24,7 @@ NAN_METHOD(compress) {
         return Nan::ThrowError("First argument must be a Buffer");
     }
 
-    Local<Object> bufferIn = info[0]->ToObject();
+    Local<Value> bufferIn  = info[0];
     size_t bytesIn         = Buffer::Length(bufferIn);
     char * dataPointer     = Buffer::Data(bufferIn);
     size_t bytesCompressed = bytesIn + 100;
@@ -41,6 +41,7 @@ NAN_METHOD(compress) {
         return Nan::ThrowError("Compression failed, probably too small buffer");
     }
 
+    bufferOut = (char*) realloc (bufferOut, result);
     Nan::MaybeLocal<Object> BufferOut = Nan::NewBuffer(bufferOut, result);
 
     info.GetReturnValue().Set(BufferOut.ToLocalChecked());
@@ -52,7 +53,7 @@ NAN_METHOD(decompress) {
         return Nan::ThrowError("First argument must be a Buffer");
     }
 
-    Local<Object> bufferIn = info[0]->ToObject();
+    Local<Value> bufferIn = info[0];
 
     size_t bytesUncompressed = 999 * 1024 * 1024; // it's about max size that V8 supports
 
@@ -72,6 +73,7 @@ NAN_METHOD(decompress) {
         return Nan::ThrowError("Unrompression failed, probably too small buffer");
     }
 
+    bufferOut = (char*) realloc (bufferOut, result);
     Nan::MaybeLocal<Object> BufferOut = Nan::NewBuffer(bufferOut, result);
 
     info.GetReturnValue().Set(BufferOut.ToLocalChecked());
