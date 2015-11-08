@@ -144,7 +144,9 @@ using namespace std;
 # if defined (WIN32)
 #  define LZF_USE_OFFSETS defined(_M_X64)
 # else
-#  if __cplusplus > 199711L
+#  if MAC_OS_X_VERSION_MIN_REQUIRED >= MAC_OS_X_VERSION_10_8
+#   include <tr1/cstdint>
+#  elif __cplusplus > 199711L
 #   include <cstdint>
 #  else
 #   include <stdint.h>
