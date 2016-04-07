@@ -144,10 +144,18 @@ using namespace std;
 # if defined (WIN32)
 #  define LZF_USE_OFFSETS defined(_M_X64)
 # else
-#  if __cplusplus > 199711L
-#   include <cstdint>
+#  if __APPLE__
+#   if __clang_major__ >= 3
+#       include <tr1/cstdint>
+#   else
+#       include <cstdint>
+#   endif
 #  else
-#   include <stdint.h>
+#   if __cplusplus > 199711L
+#    include <cstdint>
+#   else
+#    include <stdint.h>
+#   endif
 #  endif
 #  define LZF_USE_OFFSETS (UINTPTR_MAX > 0xffffffffU)
 # endif
