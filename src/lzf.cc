@@ -58,7 +58,7 @@ NAN_METHOD(decompress) {
     size_t bytesUncompressed = 999 * 1024 * 1024; // it's about max size that V8 supports
 
     if (info.Length() > 1 && info[1]->IsNumber()) { // accept dest buffer size
-        bytesUncompressed = info[1]->Uint32Value();
+        bytesUncompressed = Nan::To<uint32_t>(info[1]).FromJust();
     }
 
 
@@ -79,10 +79,16 @@ NAN_METHOD(decompress) {
     info.GetReturnValue().Set(BufferOut.ToLocalChecked());
 }
 
-extern "C" void
-init (Handle<Object> target) {
-    Nan::SetMethod(target, "compress", compress);
-    Nan::SetMethod(target, "decompress", decompress);
+extern "C" void init(Local<Object> exports, Local<Value> module, Local<Context> context) {
+    Nan::HandleScope scope;
+
+    if (!exports->IsObject() || exports->IsNull()) {
+        Nan::ThrowTypeError("Target object is not valid");
+        return;
+    }
+
+    Nan::SetMethod(exports.As<Object>(), "compress", compress);
+    Nan::SetMethod(exports.As<Object>(), "decompress", decompress);
 }
 
 NODE_MODULE(lzf, init)
