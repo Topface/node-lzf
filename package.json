@@ -12,7 +12,7 @@
         "url": "git://github.com/Topface/node-lzf.git"
     },
     "dependencies": {
-        "nan": "^2.5.0"
+        "nan": "^2.18.0"
     },
     "directories": {
         "lib": "./lib"
